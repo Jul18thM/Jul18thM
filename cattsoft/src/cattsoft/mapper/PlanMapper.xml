@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cattsoft.mapper.PlanMapper">
+	<resultMap id="BaseResultMap" type="cattsoft.pojo.Plan">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="plan_name" jdbcType="VARCHAR"
+			property="planName" />
+		<result column="plan_state" jdbcType="VARCHAR"
+			property="planState" />
+		<result column="feedback" jdbcType="VARCHAR"
+			property="feedback" />
+		<result column="plan_begin_date" jdbcType="TIMESTAMP"
+			property="planBeginDate" />
+		<result column="plan_end_date" jdbcType="TIMESTAMP"
+			property="planEndDate" />
+		<result column="task_id" jdbcType="INTEGER" property="taskId" />
+		<result column="plan_description" jdbcType="LONGVARCHAR"
+			property="planDescription" />
+		<result column="plan_feedback" jdbcType="LONGVARCHAR"
+			property="planFeedback" />
+	</resultMap>
+	<resultMap extends="BaseResultMap" id="ResultMapWithBLOBs"
+		type="cattsoft.pojo.PlanWithBLOBs">
+		<result column="plan_description" jdbcType="LONGVARCHAR"
+			property="planDescription" />
+		<result column="plan_feedback" jdbcType="LONGVARCHAR"
+			property="planFeedback" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" prefixOverrides="and" suffix=")">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach close=")" collection="criterion.value"
+										item="listItem" open="(" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" prefixOverrides="and" suffix=")">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach close=")" collection="criterion.value"
+										item="listItem" open="(" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		id, plan_name, plan_state, feedback, plan_begin_date,
+		plan_end_date,
+		task_id
+	</sql>
+	<sql id="Blob_Column_List">
+		plan_description, plan_feedback
+	</sql>
+	<delete id="deleteByPrimaryKey"
+		parameterType="java.lang.Integer">
+		delete from t_plan
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insertSelective"
+		parameterType="cattsoft.pojo.PlanWithBLOBs">
+		insert into t_plan
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="planName != null">
+				plan_name,
+			</if>
+			<if test="planState != null">
+				plan_state,
+			</if>
+			<if test="feedback != null">
+				feedback,
+			</if>
+			<if test="planBeginDate != null">
+				plan_begin_date,
+			</if>
+			<if test="planEndDate != null">
+				plan_end_date,
+			</if>
+			<if test="taskId != null">
+				task_id,
+			</if>
+			<if test="planDescription != null">
+				plan_description,
+			</if>
+			<if test="planFeedback != null">
+				plan_feedback,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="planName != null">
+				#{planName,jdbcType=VARCHAR},
+			</if>
+			<if test="planState != null">
+				#{planState,jdbcType=VARCHAR},
+			</if>
+			<if test="feedback != null">
+				#{feedback,jdbcType=VARCHAR},
+			</if>
+			<if test="planBeginDate != null">
+				#{planBeginDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="planEndDate != null">
+				#{planEndDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="taskId != null">
+				#{taskId,jdbcType=INTEGER},
+			</if>
+			<if test="planDescription != null">
+				#{planDescription,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="planFeedback != null">
+				#{planFeedback,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKey"
+		parameterType="cattsoft.pojo.Plan">
+		update t_plan
+		set plan_name =
+		#{planName,jdbcType=VARCHAR},
+		plan_state =
+		#{planState,jdbcType=VARCHAR},
+		feedback = #{feedback,jdbcType=VARCHAR},
+		plan_begin_date = #{planBeginDate,jdbcType=TIMESTAMP},
+		plan_end_date =
+		#{planEndDate,jdbcType=TIMESTAMP},
+		task_id = #{taskId,jdbcType=INTEGER}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<resultMap type="cattsoft.pojo.Plan" id="plan">
+		<id></id>
+	</resultMap>
+	<!-- 根据task_id查询planList -->
+	<select id="plans" parameterType="cattsoft.pojo.Plan"
+		resultMap="BaseResultMap">
+		select * from t_plan where task_id = #{0}
+	</select>
+	<!-- 根据task_id查询planList -->
+	<select id="getPlanById" parameterType="cattsoft.pojo.Plan"
+		resultMap="BaseResultMap">
+		select * from t_plan where id = #{0}
+	</select>
+	<!-- 根据id更新Plan -->
+	<update id="updatePlanById" parameterType="cattsoft.pojo.Plan">
+		update t_plan set
+		plan_state = #{1},feedback = #{2},plan_description =
+		#{3},plan_feedback = #{4} where id = #{0}
+	</update>
+	<!-- 根据新建一个计划 -->
+	<insert id="createNewPlan"
+		parameterType="cattsoft.pojo.PlanWithBLOBs">
+		insert into t_plan (
+		plan_name, plan_state,
+		feedback,
+		plan_begin_date, plan_end_date,
+		plan_description, task_id
+		)
+		values
+		(#{1},#{2},#{3},#{4},#{5},#{6},#{0})
+	</insert>
+	<!-- 根据id删除计划 -->
+	<delete id="deletePlanById" parameterType="java.lang.Integer">
+		delete from t_plan
+		where id = #{0 }
+	</delete>
+	<!-- 新建一个名为PlanVo的resultMap用来实现多表查询 -->
+	<resultMap type="PlanVo" id="planvolist">
+		<id property="id" column="id" />
+		<id column="plan_name" property="planName" />
+		<id column="plan_state" property="planState" />
+		<id column="feedback" property="feedback" />
+		<id column="plan_begin_date" property="planBeginDate" />
+		<id column="plan_end_date" property="planEndDate" />
+		<id column="task_id" property="taskId" />
+		<id column="plan_description" property="planDescription" />
+		<id column="plan_feedback" property="planFeedback" />
+		<association property="task" javaType="Task">
+			<result property="staffId" column="staff_id" />
+			<result property="taskName" column="task_name" />
+		</association>
+	</resultMap>
+	<!-- 根据员工用户名查询对应的plan -->
+	<select id="getPlanListByUsername" resultMap="planvolist">
+		SELECT
+		p.*,t.staff_id,t.task_name
+		from t_plan p
+		LEFT JOIN t_task t ON t.id = p.task_id
+		where t.staff_id = #{0}
+	</select>
+	<!-- 根据前台表单传来的参数查询响应的列表 -->
+	<select id="getPlanListByValues" resultMap="planvolist">
+		slelect
+		p.*,t.staff_id,t.task_name
+		from t_plan p
+		LEFT JOIN t_task t ON t.id = p.task_id
+		where t.staff_id = #{0}
+		<if test="planName != null">
+			and p.plan_name = #{1}
+		</if>
+		<if test="taskName != null">
+		    and t.taskName = ${2}
+		</if>
+		<if test="feedback != null">
+		  and p.feedback = ${3}
+		</if>
+		<if test="">
+		
+		</if>
+	</select>
+</mapper>
